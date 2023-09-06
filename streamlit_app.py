@@ -5,7 +5,17 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
     st.title("Choose a Prompt")
-    prompt_choice = st.radio("Select a Prompt", ["Nuevo Correo Electrónico", "Respuesta de Correo Electrónico", "Ensayo a Favor", "Ensayo en Contra", "Ensayo Descriptivo", "Columna Periodística", "Artículo para Blog", "Ensayo Libre"])
+    prompt_choices = {
+        "Nuevo Correo Electrónico": 0,
+        "Respuesta de Correo Electrónico": 1,
+        "Ensayo a Favor": 2,
+        "Ensayo en Contra": 3,
+        "Ensayo Descriptivo": 4,
+        "Columna Periodística": 5,
+        "Artículo para Blog": 6,
+        "Ensayo Libre": 7,
+    }
+    prompt_choice = st.selectbox("Select a Prompt", list(prompt_choices.keys()))
 
 st.title("💬 Chatbot")
 
@@ -22,7 +32,8 @@ prompts = [
 ]
 
 # Use the selected prompt
-selected_prompt = prompts[prompt_choice]
+selected_prompt_index = prompt_choices[prompt_choice]
+selected_prompt = prompts[selected_prompt_index]
 
 if "messages" not in st.session_state:
     # The assistant begins the conversation with the selected prompt.
