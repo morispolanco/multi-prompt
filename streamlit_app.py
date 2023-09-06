@@ -21,7 +21,8 @@ st.title("💬 Chatbot")
 
 # Define the prompts
 prompts = [
-    "¿Qué quieres escribir?",  # Saludo inicial modificado
+    "¿Qué quieres escribir? Selecciona una opción en la columna de la izquierda.",  # Saludo inicial modificado
+    "Escribe un correo electrónico nuevo.",
     "Escribe un correo electrónico de respuesta.",
     "Escribe un ensayo argumentativo a favor de algo.",
     "Escribe un ensayo argumentativo en contra de algo.",
@@ -32,7 +33,7 @@ prompts = [
 ]
 
 # Use the selected prompt
-selected_prompt_index = prompt_choices[prompt_choice]
+selected_prompt_index = prompt_choices.get(prompt_choice, 0)
 selected_prompt = prompts[selected_prompt_index]
 
 if "messages" not in st.session_state:
