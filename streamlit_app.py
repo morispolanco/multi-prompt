@@ -1,4 +1,4 @@
-Copyimport openai 
+import openai 
 import streamlit as st
 
 with st.sidebar:
