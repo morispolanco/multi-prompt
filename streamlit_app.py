@@ -21,7 +21,7 @@ st.title("💬 Chatbot")
 
 # Define the prompts
 prompts = [
-    "Escribe un correo electrónico nuevo.",
+    "¿Qué quieres escribir?",  # Saludo inicial modificado
     "Escribe un correo electrónico de respuesta.",
     "Escribe un ensayo argumentativo a favor de algo.",
     "Escribe un ensayo argumentativo en contra de algo.",
