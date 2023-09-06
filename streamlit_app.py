@@ -1,31 +1,32 @@
-import openai 
+import openai
 import streamlit as st
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+    st.title("Choose a Prompt")
+    prompt_choice = st.radio("Select a Prompt", ["Nuevo Correo Electrónico", "Respuesta de Correo Electrónico", "Ensayo a Favor", "Ensayo en Contra", "Ensayo Descriptivo", "Columna Periodística", "Artículo para Blog", "Ensayo Libre"])
 
-st.title("💬 Chatbot") 
+st.title("💬 Chatbot")
 
-# Define the prompts here
-prompts = {
-    1: "Escribe un correo nuevo",
-    2: "Escribe una respuesta a un correo",
-    3: "Escribe un post para un blog",
-    4: "Escribe un ensayo argumentativo en favor de algo",
-    5: "Escribe un artículo académico",
-    6: "Escribe una columna periodística",
-    7: "Escribe un reportaje",
-    8: "Escribe una entrada para Linkedin",
-    9: "Escribe una entrada para Facebook",
-    10: "Escribe una entrada para Twitter"
-}
+# Define the prompts
+prompts = [
+    "Escribe un correo electrónico nuevo.",
+    "Escribe un correo electrónico de respuesta.",
+    "Escribe un ensayo argumentativo a favor de algo.",
+    "Escribe un ensayo argumentativo en contra de algo.",
+    "Escribe un ensayo descriptivo.",
+    "Escribe una columna periodística.",
+    "Escribe un artículo para un blog.",
+    "Escribe un ensayo libre."
+]
 
-selected_prompt = st.selectbox("Select a prompt", list(prompts.values()))
+# Use the selected prompt
+selected_prompt = prompts[prompt_choice]
 
 if "messages" not in st.session_state:
     # The assistant begins the conversation with the selected prompt.
-    st.session_state["messages"] = [{"role": "assistant", "content": prompts[selected_prompt]}]
+    st.session_state["messages"] = [{"role": "assistant", "content": selected_prompt}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
@@ -39,7 +40,7 @@ if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    # Get responses from the chat model
+    # Get responses from chat model
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
     st.session_state.messages.append(msg)
