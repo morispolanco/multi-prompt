@@ -21,8 +21,7 @@ prompts = [
 ]
 
 # Use the selected prompt
-selected_prompt_index = 0  # Inicialmente, mostramos las opciones de prompts
-selected_prompt = prompts[selected_prompt_index]
+selected_prompt = prompts[0]  # Inicialmente, mostramos las opciones de prompts
 
 if "messages" not in st.session_state:
     # El asistente comienza la conversación con el saludo y las opciones de prompts.
@@ -41,25 +40,24 @@ if prompt := st.chat_input():
 
     # Definir los prompts en función de la respuesta del usuario
     if user_input == "1" or "nuevo correo electrónico" in user_input:
-        selected_prompt_index = 1
+        selected_prompt = prompts[1]
     elif user_input == "2" or "respuesta de correo electrónico" in user_input:
-        selected_prompt_index = 2
+        selected_prompt = prompts[2]
     elif user_input == "3" or "ensayo a favor" in user_input:
-        selected_prompt_index = 3
+        selected_prompt = prompts[3]
     elif user_input == "4" or "ensayo en contra" in user_input:
-        selected_prompt_index = 4
+        selected_prompt = prompts[4]
     elif user_input == "5" or "ensayo descriptivo" in user_input:
-        selected_prompt_index = 5
+        selected_prompt = prompts[5]
     elif user_input == "6" or "columna periodística" in user_input:
-        selected_prompt_index = 6
+        selected_prompt = prompts[6]
     elif user_input == "7" or "artículo para blog" in user_input:
-        selected_prompt_index = 7
+        selected_prompt = prompts[7]
     elif user_input == "8" or "ensayo libre" in user_input:
-        selected_prompt_index = 8
+        selected_prompt = prompts[8]
     else:
         st.info("Opción no válida. Por favor, selecciona un número o una opción válida.")
 
-    selected_prompt = prompts[selected_prompt_index]
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.chat_message("user").write(user_input)
 
