@@ -7,25 +7,12 @@ with st.sidebar:
 
 st.title("💬 Chatbot")
 
-# Define the prompts
-prompts = [
-    "¿Qué quieres escribir? Selecciona una opción:\n\n"
-    "1. Nuevo Correo Electrónico\n"
-    "2. Respuesta de Correo Electrónico\n"
-    "3. Ensayo a Favor\n"
-    "4. Ensayo en Contra\n"
-    "5. Ensayo Descriptivo\n"
-    "6. Columna Periodística\n"
-    "7. Artículo para Blog\n"
-    "8. Ensayo Libre\n"
-]
-
-# Use the selected prompt
-selected_prompt = prompts[0]  # Inicialmente, mostramos las opciones de prompts
+# Saludo inicial del chatbot
+initial_prompt = "¿Qué quieres escribir?"
 
 if "messages" not in st.session_state:
-    # El asistente comienza la conversación con el saludo y las opciones de prompts.
-    st.session_state["messages"] = [{"role": "assistant", "content": selected_prompt}]
+    # El asistente comienza la conversación con el saludo.
+    st.session_state["messages"] = [{"role": "assistant", "content": initial_prompt}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
@@ -36,32 +23,13 @@ if prompt := st.chat_input():
         st.stop()
 
     openai.api_key = openai_api_key
-    user_input = prompt.strip().lower()  # Convertir la respuesta del usuario a minúsculas
+    user_input = prompt.strip()
 
-    # Definir los prompts en función de la respuesta del usuario
-    if user_input == "1" or "nuevo correo electrónico" in user_input:
-        selected_prompt = prompts[1]
-    elif user_input == "2" or "respuesta de correo electrónico" in user_input:
-        selected_prompt = prompts[2]
-    elif user_input == "3" or "ensayo a favor" in user_input:
-        selected_prompt = prompts[3]
-    elif user_input == "4" or "ensayo en contra" in user_input:
-        selected_prompt = prompts[4]
-    elif user_input == "5" or "ensayo descriptivo" in user_input:
-        selected_prompt = prompts[5]
-    elif user_input == "6" or "columna periodística" in user_input:
-        selected_prompt = prompts[6]
-    elif user_input == "7" or "artículo para blog" in user_input:
-        selected_prompt = prompts[7]
-    elif user_input == "8" or "ensayo libre" in user_input:
-        selected_prompt = prompts[8]
-    else:
-        st.info("Opción no válida. Por favor, selecciona un número o una opción válida.")
-
+    # Agregar el mensaje del usuario a la conversación
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.chat_message("user").write(user_input)
 
-    # Obtenemos respuestas del modelo de chat
+    # Obtener una respuesta del modelo de chat
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
     st.session_state.messages.append(msg)
